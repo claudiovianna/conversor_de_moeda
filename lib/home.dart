@@ -10,6 +10,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  ///preparação para obter dados através de uma api
+  ///requisição
+  static const _request = "https://api.hgbrasil.com/finance?format=json&key=24d7a889";
+  ///requisição para api de moedas
+  Future<Map> _getData() async {
+    http.Response response = await http.get(_request);
+    var dados = json.decode(response.body);
+    return dados;
+  }
+
   //atributos
   double dolar;
   double euro;
@@ -70,7 +80,7 @@ class _HomeState extends State<Home> {
       ///além diddo, é necessário especificar o que vai ser recebido no parâmetro "future"
       ///e no builder do FutureBuilder é necessário informar: "context e snapshot"
       body: FutureBuilder<Map>(
-        future: getData(),
+        future: _getData(),
         builder: (context, snapshot) {
           switch(snapshot.connectionState){
             case ConnectionState.none:
@@ -154,12 +164,12 @@ class _HomeState extends State<Home> {
   }
 }
 
-///preparação para obter dados através de uma api
-///requisição
-const request = "https://api.hgbrasil.com/finance?format=json&key=24d7a889";
-///requisição para api de moedas
-Future<Map> getData() async {
-  http.Response response = await http.get(request);
-  var dados = json.decode(response.body);
-  return dados;
-}
+/////preparação para obter dados através de uma api
+/////requisição
+//const request = "https://api.hgbrasil.com/finance?format=json&key=24d7a889";
+/////requisição para api de moedas
+//Future<Map> getData() async {
+//  http.Response response = await http.get(request);
+//  var dados = json.decode(response.body);
+//  return dados;
+//}
